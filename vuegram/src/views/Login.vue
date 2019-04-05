@@ -80,6 +80,7 @@
 </template>
 
 <script>
+    /* eslint-disable */
     const fb = require('../firebaseConfig.js')
 
     export default {

@@ -1,10 +1,11 @@
+/* eslint-disable */
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import firebase from 'firebase'
 
-import Login from '@/components/Login'
-import Dashboard from '@/components/Dashboard'
-import Settings from '@/components/Settings'
+import Login from '@/views/Login'
+import Dashboard from '@/views/Dashboard'
+import Settings from '@/views/Settings'
 
 Vue.use(Router)
 
