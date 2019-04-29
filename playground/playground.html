@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Playground</title>
+        <script src="https://unpkg.com/vue"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p v-if="path === '/'">You are on the home page</p>
+            <p v-else>You're on {{ path }}</p>
+
+            <div v-if="state === 'loading'">Loading</div>
+            <div v-else-if="state === 'error'">An error occured</div>
+            <div v-else>Our content</div>
+
+            <ul>
+                <li v-for="(rent, city) in averageRent">
+                    The average rent in {{ city }} is ${{ rent }}
+                </li>
+            </ul>
+
+            <button :type="buttonType">Test button</button><br />
+
+            <input type="text" v-model="inputText">
+            <p>inputText: {{ inputText }}</p>
+
+            <p>Sum of numbers: {{ numberTotal }}</p>
+
+            <input type="text" v-model="inputValue">
+
+            <p>Five seconds ago, the input said "{{ oldInputValue }}"</p>
+
+            <p>{{ seconds }} seconds have elapsed since you opened the page.</p>
+        </div>
+        <script>
+            // Life-cycle hooks
+            // beforeCreated
+            // created
+            // beforeMount
+            // mounted == yu can use Vue.nextTick or this.$nextTick(() => {}) to ensure element has been added to DOM
+            // beforeUpdate
+            // updated
+            // beforeDestroy
+            // destroyed
+            new Vue({
+                el: '#app',
+                data: {
+                    path: location.pathname,
+                    state: 'content',
+                    averageRent: {
+                        london: 1650,
+                        paris: 1730,
+                        NYC: 3680
+                    },
+                    buttonType: 'submit',
+                    seconds: 0,
+                    inputText: 'initial value',
+                    numbers: [5, 6, 3],
+                    inputValue: '',
+                    oldInputValue: ''
+                },
+                watch: {
+                    inputValue() {
+                        const newValue = this.inputValue;
+                        setTimeout(() => {
+                            this.oldInputValue = newValue
+                        }, 5000)
+                    }
+                },
+                computed: {
+                    numberTotal: {
+                        get() {
+                            return this.numbers.reduce((sum, val) => sum + val);
+                        },
+                        set(newValue) {
+                            const oldValue = this.numberTotal;
+                            const difference = newValue - oldValue;
+                            this.numbers.push(difference);
+                        }
+                    }
+                },
+                created() {
+                    setInterval(() => {
+                        this.seconds++;
+                    }, 1000);
+                }
+            })
+
+            Vue.directive('blink', {
+                bind(el) {
+                    let isVisible = true;
+                    setInterval(() => {
+                        isVisible = !isVisible;
+                        el.style.visibility = isVisible ? 'visible' : 'hidden';
+                    }, 1000);
+                }
+            })
+        </script>
+    </body>
+</html>
